@@ -45,7 +45,7 @@ const abilitiesAndSkills = {
 };
 
 state.abilities.allAbilities.map(ability => {
-    const skills = abilitiesAndSkills[ability]
+    const skills = allAbilities[ability]
     // ... render skills
 });
 const proficiencies = {
@@ -140,9 +140,30 @@ const state = {
 // logic
 const getAbilityModifier = (state, ability) => attributeBonus(state.abilities.byValue[ability]);
 const getAbilityModifierCurried = (ability) => (state) => attributeBonus(state.abilities.byValue[ability]);
-
 const getWisom = getAbilityModifierCurried('wisdom');
+
+const f1 = (number) => number * 40;
+const f2 = (number) => number.toString();
+const f3 = (string, symbol) => string + symbol;
+const f3c = (symbol) => (string) => string + symbol;
+const convert = string => ({a: string, b: 'foo', c: 'bar'});
+const f5 = ({a, b, c}) => a + b + c;
+
+const value = 42;
+
+const pipe = (...functions) => (value) => functions.reduce((result, f) => f(result), value);
+
+const f4 = pipe(f1, f2, f3);
+
+const r1 = f3(f2(f1(value)));
+const r2 = f4(value);
+const r3 = pipe(f1, f2, f3c('!'), convert, f5)(value);
+
+
+
 const getStrength = getAbilityModifierCurried('strength');
+const strengthValue = getStrength(state);
+
 const getCons = getAbilityModifierCurried('constitution');
 const getAthletics = (state) => skillBonus(state.abilities.byValue.strength);
 
@@ -217,7 +238,7 @@ const attributeList = (abilitiesAndSkills) => {
         abilityModifier.id = `ability-modifier-${ability}`
         abilityModifierSign.textContent = modifierSign(abilityModifier.textContent);
         abilityScore.addEventListener("input", e => {
-c           state.abilities.byValue.wisdom = e.target.value;
+// c           state.abilities.byValue.wisdom = e.target.value;
             abilityModifier.render();
 
             skill.setState(e.target.value);
@@ -293,5 +314,5 @@ const skillsAndDependenciesList = (abilitiesAndSkills) => {
 };
 
 sheetHeader(sheetHeaderEntries);
-attributeList(abilitiesAndSkills);
-skillsAndDependenciesList(abilitiesAndSkills);
+attributeList(allAbilities);
+skillsAndDependenciesList(allAbilities);
