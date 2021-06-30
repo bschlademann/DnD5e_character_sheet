@@ -30,7 +30,7 @@ export const abilityModifier = ability => Math.floor((ability - 10) / 2);
 
 export const getAbilityModifier = (ability, state) => abilityModifier(state.ability_scores[ability]);
 
-export const proficiencyBonusAdaption = (state) => {
+export const setProficiencyBonus = (state) => {
     const characterLevel = state.sheet_header_entries.level;
     const proficiencyIncreaseThresholds = [5, 9, 13, 17];
     let proficiencyBonusIncrease = 0;
@@ -38,11 +38,10 @@ export const proficiencyBonusAdaption = (state) => {
         if (characterLevel >= thresholdLevel) { proficiencyBonusIncrease++ }
     });
     state.proficiencies.proficiency_bonus = 2 + proficiencyBonusIncrease;
-    console.log("pb:", state.proficiencies.proficiency_bonus);
 };
 
 export const clamp = (min, max, value) => value < min ? min : value > max ? max : value;
 
 export const updateHeaderEntries = (value, state) => {
     state.sheet_header_entries.level = value;
-}
+};

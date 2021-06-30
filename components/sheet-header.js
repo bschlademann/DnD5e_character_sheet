@@ -1,8 +1,13 @@
-import {proficiencyBonusAdaption, updateHeaderEntries} from './domain.js';
+import {setProficiencyBonus, updateHeaderEntries} from '../domain.js';
+
+
+const getProficiencyBonus = (proficiencyBonus, state) => {
+    proficiencyBonus.value = state.proficiencies.proficiency_bonus;
+}
 
 export const renderProficiencyBonus = (state) => {
     const proficiencyBonus = document.getElementById("sheet-header-proficiency-bonus");
-    proficiencyBonus.value = state.proficiencies.proficiency_bonus;
+    getProficiencyBonus(proficiencyBonus, state);
 };
 
 export const sheetHeader = (sheetHeaderEntries, state) => {
@@ -32,7 +37,7 @@ export const sheetHeader = (sheetHeaderEntries, state) => {
 
             headerEntryInput.addEventListener("input", (e) => {
                 updateHeaderEntries(e.target.value, state);
-                proficiencyBonusAdaption(state);
+                setProficiencyBonus(state);
                 renderProficiencyBonus(state);
             });
         };

@@ -1,8 +1,14 @@
-import {clamp, getAbilityModifier} from './domain.js';
+import { clamp, getAbilityModifier } from '../domain.js';
 
 export const renderAbilityModifier = (ability, state) => {
     const modifier = document.getElementById(`${ability}-modifier`);
-    modifier.textContent = getAbilityModifier(ability, state);
+    const value = getAbilityModifier(ability, state);
+    const symbol = value >= 0 ? "+" : "";
+    modifier.textContent = symbol + getAbilityModifier(ability, state);
+};
+
+export const setAbilityScore = (ability, clampedAbilityScore, state) => {
+    state.ability_scores[ability] = clampedAbilityScore;
 };
 
 export const abilityList = (allAbilities, state) => {
@@ -25,13 +31,12 @@ export const abilityList = (allAbilities, state) => {
         abilityScore.type = "number";
         abilityScore.value = 10;
         listElement.appendChild(abilityModifier);
-        abilityModifier.textContent = 0;
+        abilityModifier.textContent = "+0";
         abilityModifier.id = `${ability}-modifier`;
         abilityScore.addEventListener("input", () => {
             const clampedAbilityScore = clamp(3, 18, abilityScore.value);
             abilityScore.value = clampedAbilityScore;
-            // TODO: extract
-            state.ability_scores[ability] = clampedAbilityScore;
+            setAbilityScore(ability, clampedAbilityScore, state)
             renderAbilityModifier(ability, state);
         });
         listElement.appendChild(abilityModifier);

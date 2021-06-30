@@ -1,4 +1,4 @@
-import {allSkills, skillsByAbility} from './data.js';
+import {allSkills, skillsByAbility} from '../data.js';
 
 export const skillsAndDependenciesList = (abilitiesAndSkills, state) => {
     const root = document.getElementById("root");
