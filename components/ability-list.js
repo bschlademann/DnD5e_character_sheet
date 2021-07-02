@@ -1,14 +1,10 @@
-import { clamp, getAbilityModifier } from '../domain.js';
+import { clamp, getAbilityModifier, setAbilityScore, rollAbilityCheck } from '../domain.js';
 
 export const renderAbilityModifier = (ability, state) => {
     const modifier = document.getElementById(`${ability}-modifier`);
     const value = getAbilityModifier(ability, state);
     const symbol = value >= 0 ? "+" : "";
     modifier.textContent = symbol + getAbilityModifier(ability, state);
-};
-
-export const setAbilityScore = (ability, clampedAbilityScore, state) => {
-    state.ability_scores[ability] = clampedAbilityScore;
 };
 
 export const abilityList = (allAbilities, state) => {
@@ -24,6 +20,7 @@ export const abilityList = (allAbilities, state) => {
         const abilityModifier = document.createElement("span");
 
         label.appendChild(text);
+        label.addEventListener("click", () => console.log(`${ability}-check:`, rollAbilityCheck(ability, state)));
         listElement.appendChild(label);
         listElement.id = `ability-${ability}`
         listElement.appendChild(abilityScore);

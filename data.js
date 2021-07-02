@@ -11,10 +11,10 @@ export const sheetHeaderEntries = [
 ];
 export const allAbilities = [
     "strength",
+    "dexterity",
     "constitution",
     "intelligence",
     "wisdom",
-    "dexterity",
     "charisma",
 ];
 export const allSkills = [

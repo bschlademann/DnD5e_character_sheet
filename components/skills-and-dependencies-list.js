@@ -1,4 +1,5 @@
-import {allSkills, skillsByAbility} from '../data.js';
+import { allSkills, skillsByAbility } from '../data.js';
+import { getSkillModifier } from "../domain.js";
 
 export const skillsAndDependenciesList = (abilitiesAndSkills, state) => {
     const root = document.getElementById("root");
@@ -25,10 +26,10 @@ export const skillsAndDependenciesList = (abilitiesAndSkills, state) => {
 
         /**
          * for each skill:
-         * name
-         * attribute it depends on
          * proficiency checkbox
-         * value that depends on PB and proficiencies
+         *  value that depends on PB and proficiencies
+         * name
+         * attribute it depends on 
          * add event listener to each value-element if its corresponding checkbox is checked
          * 
          * replace number fields with something else / div.textContent?

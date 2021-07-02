@@ -1,7 +1,7 @@
 import {setProficiencyBonus, updateHeaderEntries} from '../domain.js';
 
 
-const getProficiencyBonus = (proficiencyBonus, state) => {
+export const getProficiencyBonus = (proficiencyBonus, state) => {
     proficiencyBonus.value = state.proficiencies.proficiency_bonus;
 }
 
