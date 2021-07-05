@@ -4,7 +4,11 @@ export const renderAbilityModifier = (ability, state) => {
     const modifier = document.getElementById(`${ability}-modifier`);
     const value = getAbilityModifier(ability, state);
     const symbol = value >= 0 ? "+" : "";
-    modifier.textContent = symbol + getAbilityModifier(ability, state);
+    modifier.textContent = symbol + value;
+};
+
+const renderAbilityCheck = (ability, state) => {
+    console.log(`${ability}-check:`, rollAbilityCheck(ability, state))
 };
 
 export const abilityList = (allAbilities, state) => {
@@ -20,7 +24,7 @@ export const abilityList = (allAbilities, state) => {
         const abilityModifier = document.createElement("span");
 
         label.appendChild(text);
-        label.addEventListener("click", () => console.log(`${ability}-check:`, rollAbilityCheck(ability, state)));
+        label.addEventListener("click", () => renderAbilityCheck(ability, state));
         listElement.appendChild(label);
         listElement.id = `ability-${ability}`
         listElement.appendChild(abilityScore);
