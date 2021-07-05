@@ -7,7 +7,7 @@ const renderSkillModifier = (skill, skillsByAbility, state) => {
 
 const renderAbilityDependency = (skill, skillsByAbility) => {
     const abilityDependency = document.getElementById(`ability-dependency-${skill}`);
-    const ability = skillsByAbility[skill.replaceAll(" ", "_")];
+    const ability = skillsByAbility[skill];
     abilityDependency.textContent = `(${ability})`;
 };
 
@@ -22,12 +22,9 @@ export const skillsAndDependenciesList = (allSkills, skillsByAbility, state) => 
 
         /**
          * for each skill:
-         * proficiency checkbox
-         * value that depends on PB and proficiencies
-         * name
-         * attribute it depends on 
-         * add event listener to each value-element if its corresponding checkbox is checked
+         * add event listener to each checkbox to rerender value of skill modifier
          */
+
         const listEntry = document.createElement("li");
         list.appendChild(listEntry);
         list.id = "skill-list";
@@ -36,6 +33,17 @@ export const skillsAndDependenciesList = (allSkills, skillsByAbility, state) => 
         listEntry.appendChild(proficiencyCheckBox);
         proficiencyCheckBox.type = "checkbox";
         proficiencyCheckBox.id = `proficiency-checkbox-${skill}`;
+        proficiencyCheckBox.addEventListener("click", e => {
+            if (e.target.checked){
+                state.proficiencies.skills.push(skill);
+                renderSkillModifier(skill, skillsByAbility, state);
+            } else {
+                const skillsInState = state.proficiencies.skills;
+                const skillToRemove = skillsInState.indexOf(skill);
+                skillsInState.splice(skillToRemove)
+                renderSkillModifier(skill, skillsByAbility, state)
+            }
+        })
 
         const skillModifier = document.createElement("span");
         listEntry.appendChild(skillModifier);        
@@ -43,7 +51,7 @@ export const skillsAndDependenciesList = (allSkills, skillsByAbility, state) => 
 
         const name = document.createElement("label");
         listEntry.appendChild(name);
-        name.textContent = skill;
+        name.textContent = skill.replaceAll("_", " ");
 
         const abilityDependency = document.createElement("span");
         listEntry.appendChild(abilityDependency);

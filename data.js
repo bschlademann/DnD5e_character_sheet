@@ -19,7 +19,7 @@ export const allAbilities = [
 ];
 export const allSkills = [
     'acrobatics',
-    'animal handling',
+    'animal_handling',
     'arcana',
     'athletics',
     'deception',
@@ -33,7 +33,7 @@ export const allSkills = [
     'performance',
     'persuasion',
     'religion',
-    'sleight of hand',
+    'sleight_of_hand',
     'stealth',
     'survival'
 ];

@@ -57,9 +57,9 @@ export const roll1d20 = () => Math.floor(Math.random() * 20) + 1;
 export const rollAbilityCheck = (ability, state) => roll1d20() + getAbilityModifier(ability, state);
 
 export const getSkillModifier = (skill, skillsByAbility, state) => {
-    const ability = skillsByAbility[skill.replaceAll(" ", "_")];
+    const ability = skillsByAbility[skill];
     const abilityModifier = getAbilityModifier(ability, state);
-    const proficiencyBonus = state.proficiencies.proficiencyBonus;
+    const proficiencyBonus = state.proficiencies.proficiency_bonus;
     if (state.proficiencies.skills.includes(skill)) {
         return abilityModifier + proficiencyBonus;
     } else {
