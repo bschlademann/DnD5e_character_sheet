@@ -9,9 +9,11 @@ const render = () => {
     const state = createState();
 
     sheetHeader(sheetHeaderEntries, state);
+
     abilityList(allAbilities, state);
-    skillsAndDependenciesList(allSkills, skillsByAbility, state);
     savingThrows(allAbilities, state);
+    skillsAndDependenciesList(allSkills, skillsByAbility, state);
+   
 };
 
 render();

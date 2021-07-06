@@ -1,7 +1,7 @@
 import { toggleSavingThrowProficiency, getSavingThrowModifier} from "../domain.js";
 
 export const renderSavingThrowModifier = (ability, state) => {
-    const modifier = document.getElementById(`saving-throw-modifier-${ability}`);
+    const modifier = document.getElementById(`saving-throw-modifier-${ability}`);   
     modifier.textContent = getSavingThrowModifier(ability, state);
 };
 
@@ -22,6 +22,7 @@ export const savingThrows = (allAbilities, state) => {
         proficiencyCheckBox.id = `proficiency-checkbox-${ability}`;
         proficiencyCheckBox.addEventListener("click", checkBoxClick => {
             toggleSavingThrowProficiency(checkBoxClick, ability, state);
+            // FIX NaN on click
             renderSavingThrowModifier(ability, state);
         });
 

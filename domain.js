@@ -19,12 +19,12 @@ export const createState = () => ({
         charisma: 10
     },
     proficiencies: {
-        proficiency_bonus: 2,
+        proficiencyBonus: 2,
         armor: [],
         weapons: [],
         tools: [],
         skills: [],
-        saving_throws: []
+        savingThrows: []
     },
 });
 
@@ -47,7 +47,7 @@ export const setProficiencyBonus = (state) => {
     proficiencyIncreaseThresholds.forEach(thresholdLevel => {
         if (characterLevel >= thresholdLevel) { proficiencyBonusIncrease++ }
     });
-    state.proficiencies.proficiency_bonus = 2 + proficiencyBonusIncrease;
+    state.proficiencies.proficiencyBonus = 2 + proficiencyBonusIncrease;
 };
 
 export const getAbilityModifier = (ability, state) => abilityModifier(state.ability_scores[ability]);
@@ -59,7 +59,7 @@ export const rollAbilityCheck = (ability, state) => roll1d20() + getAbilityModif
 export const getSkillModifier = (skill, skillsByAbility, state) => {
     const ability = skillsByAbility[skill];
     const abilityModifier = getAbilityModifier(ability, state);
-    const proficiencyBonus = state.proficiencies.proficiency_bonus;
+    const proficiencyBonus = state.proficiencies.proficiencyBonus;
     if (state.proficiencies.skills.includes(skill)) {
         return abilityModifier + proficiencyBonus;
     } else {
@@ -72,8 +72,9 @@ export const rollSkillCheck = (skill, state) => roll1d20() + getskillmodifier(sk
 export const getSavingThrowModifier = (ability, state) => {
     const abilityModifier = getAbilityModifier(ability, state);
     const proficiencyBonus = state.proficiencies.proficiencyBonus;
-    if (state.proficiencies.saving_throws.includes(ability)) {
-        return abilityModifier + proficiencyBonus;
+    if (state.proficiencies.savingThrows.includes(ability)) {
+        const result = abilityModifier + proficiencyBonus;
+        return result;
     } else {
         return abilityModifier;
     };
@@ -93,9 +94,9 @@ export const toggleSkillProficiency = (checkBoxClick, skill, state) => {
 
 export const toggleSavingThrowProficiency = (checkBoxClick, ability, state) => {
     if (checkBoxClick.target.checked) {;
-        state.proficiencies.saving_throws.push(ability);
+        state.proficiencies.savingThrows.push(ability);
     } else {
-        const savingThrowsInState = state.proficiencies.saving_throws;
+        const savingThrowsInState = state.proficiencies.savingThrows;
         const savingThrowToRemove = savingThrowsInState.indexOf(ability);
         savingThrowsInState.splice(savingThrowToRemove);
     };
