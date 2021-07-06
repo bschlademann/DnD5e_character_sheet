@@ -1,4 +1,6 @@
+import { allSkills, skillsByAbility } from '../data.js';
 import { clamp, getAbilityModifier, setAbilityScore, rollAbilityCheck } from '../domain.js';
+import { renderSkillModifier } from "./skills-and-dependencies-list.js"
 
 export const renderAbilityModifier = (ability, state) => {
     const modifier = document.getElementById(`${ability}-modifier`);
@@ -39,6 +41,23 @@ export const abilityList = (allAbilities, state) => {
             abilityScore.value = clampedAbilityScore;
             setAbilityScore(ability, clampedAbilityScore, state)
             renderAbilityModifier(ability, state);
+
+
+            /**
+             * check which ability is being altered
+             * get all skills from skillsByAbility that use that ability
+             * skills.forEach(skill => renderSkillModifier(skill, skillsByAbility, state))
+             */
+            // optinal: run only when modifier changes
+            let dependentSkills = [];
+            allSkills.forEach(skill => {
+                if (skillsByAbility[skill] === ability) { dependentSkills.push(skill) }
+            });
+           
+            dependentSkills.forEach(skill => {
+                renderSkillModifier(skill, skillsByAbility, state);
+            });
+
         });
         listElement.appendChild(abilityModifier);
 
