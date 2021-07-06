@@ -1,9 +1,8 @@
-import {setProficiencyBonus, updateHeaderEntries} from '../domain.js';
-
+import { setProficiencyBonus, updateHeaderEntries } from "../domain.js";
 
 export const getProficiencyBonus = (proficiencyBonus, state) => {
     proficiencyBonus.value = state.proficiencies.proficiencyBonus;
-}
+};
 
 export const renderProficiencyBonus = (state) => {
     const proficiencyBonus = document.getElementById("sheet-header-proficiency-bonus");
@@ -19,7 +18,7 @@ export const sheetHeader = (sheetHeaderEntries, state) => {
 
     sheetHeaderEntries.forEach(labelText => {
         const headerEntry = document.createElement("div");
-        const headerLabel = document.createElement("label")
+        const headerLabel = document.createElement("label");
         const headerLabelText = document.createTextNode(labelText);
         const headerEntryInput = document.createElement("input");
 
@@ -27,7 +26,7 @@ export const sheetHeader = (sheetHeaderEntries, state) => {
         headerEntry.appendChild(headerLabel);
         headerEntry.appendChild(headerEntryInput);
         headerEntryInput.className = "sheet-header-input";
-        headerEntryInput.id = `sheet-header-${labelText.replace(" ", "-").toLowerCase()}`
+        headerEntryInput.id = `sheet-header-${labelText.replace(" ", "-").toLowerCase()}`;
 
         if (labelText === "level") {
             headerEntryInput.type = "number";

@@ -7,7 +7,7 @@ export const sheetHeaderEntries = [
     "background",
     "alignment",
     "race",
-    "proficiency bonus"
+    "proficiency bonus",
 ];
 export const alignments = [
     "lawful good",
@@ -18,7 +18,7 @@ export const alignments = [
     "chaotic neutral",
     "lawful evil",
     "neutral evil",
-    "chaotic evil"
+    "chaotic evil",
 ];
 
 export const allAbilities = [
@@ -30,24 +30,24 @@ export const allAbilities = [
     "charisma",
 ];
 export const allSkills = [
-    'acrobatics',
-    'animal_handling',
-    'arcana',
-    'athletics',
-    'deception',
-    'history',
-    'insight',
-    'intimidation',
-    'investigation',
-    'medicine',
-    'nature',
-    'perception',
-    'performance',
-    'persuasion',
-    'religion',
-    'sleight_of_hand',
-    'stealth',
-    'survival'
+    "acrobatics",
+    "animal_handling",
+    "arcana",
+    "athletics",
+    "deception",
+    "history",
+    "insight",
+    "intimidation",
+    "investigation",
+    "medicine",
+    "nature",
+    "perception",
+    "performance",
+    "persuasion",
+    "religion",
+    "sleight_of_hand",
+    "stealth",
+    "survival",
 ];
 export const skillsByAbility = {
     athletics: "strength",
@@ -67,5 +67,5 @@ export const skillsByAbility = {
     deception: "charisma",
     intimidation: "charisma",
     performance: "charisma",
-    persuasion: "charisma"
+    persuasion: "charisma",
 };

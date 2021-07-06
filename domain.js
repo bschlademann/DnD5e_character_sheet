@@ -8,15 +8,15 @@ export const createState = () => ({
         level: 1,
         background: "",
         alignment: "",
-        race: ""
+        race: "",
     },
-    ability_scores: {
+    abilityScores: {
         strength: 10,
         dexterity: 10,
         constitution: 10,
         intelligence: 10,
         wisdom: 10,
-        charisma: 10
+        charisma: 10,
     },
     proficiencies: {
         proficiencyBonus: 2,
@@ -24,7 +24,7 @@ export const createState = () => ({
         weapons: [],
         tools: [],
         skills: [],
-        savingThrows: []
+        savingThrows: [],
     },
 });
 
@@ -37,7 +37,7 @@ export const updateHeaderEntries = (value, state) => {
 };
 
 export const setAbilityScore = (ability, clampedAbilityScore, state) => {
-    state.ability_scores[ability] = clampedAbilityScore;
+    state.abilityScores[ability] = clampedAbilityScore;
 };
 
 export const setProficiencyBonus = (state) => {
@@ -45,12 +45,12 @@ export const setProficiencyBonus = (state) => {
     const proficiencyIncreaseThresholds = [5, 9, 13, 17];
     let proficiencyBonusIncrease = 0;
     proficiencyIncreaseThresholds.forEach(thresholdLevel => {
-        if (characterLevel >= thresholdLevel) { proficiencyBonusIncrease++ }
+        if (characterLevel >= thresholdLevel) { proficiencyBonusIncrease++; }
     });
     state.proficiencies.proficiencyBonus = 2 + proficiencyBonusIncrease;
 };
 
-export const getAbilityModifier = (ability, state) => abilityModifier(state.ability_scores[ability]);
+export const getAbilityModifier = (ability, state) => abilityModifier(state.abilityScores[ability]);
 
 export const roll1d20 = () => Math.floor(Math.random() * 20) + 1;
 
@@ -67,7 +67,7 @@ export const getSkillModifier = (skill, skillsByAbility, state) => {
     };
 };
 
-export const rollSkillCheck = (skill, state) => roll1d20() + getskillmodifier(skill, skillyByAbility, state);
+export const rollSkillCheck = (skill, skillsByAbility, state) => roll1d20() + getSkillModifier(skill, skillsByAbility, state);
 
 export const getSavingThrowModifier = (ability, state) => {
     const abilityModifier = getAbilityModifier(ability, state);
@@ -83,7 +83,7 @@ export const getSavingThrowModifier = (ability, state) => {
 export const rollSavingThrow = (ability, state) => roll1d20() + getSavingThrowModifier(ability, state);
 
 export const toggleSkillProficiency = (checkBoxClick, skill, state) => {
-    if (checkBoxClick.target.checked) {;
+    if (checkBoxClick.target.checked) {
         state.proficiencies.skills.push(skill);
     } else {
         const skillsInState = state.proficiencies.skills;
@@ -93,7 +93,7 @@ export const toggleSkillProficiency = (checkBoxClick, skill, state) => {
 };
 
 export const toggleSavingThrowProficiency = (checkBoxClick, ability, state) => {
-    if (checkBoxClick.target.checked) {;
+    if (checkBoxClick.target.checked) {
         state.proficiencies.savingThrows.push(ability);
     } else {
         const savingThrowsInState = state.proficiencies.savingThrows;

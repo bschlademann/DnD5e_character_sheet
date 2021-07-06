@@ -1,7 +1,7 @@
-import { toggleSavingThrowProficiency, getSavingThrowModifier} from "../domain.js";
+import { toggleSavingThrowProficiency, getSavingThrowModifier } from "../domain.js";
 
 export const renderSavingThrowModifier = (ability, state) => {
-    const modifier = document.getElementById(`saving-throw-modifier-${ability}`);   
+    const modifier = document.getElementById(`saving-throw-modifier-${ability}`);
     modifier.textContent = getSavingThrowModifier(ability, state);
 };
 
@@ -11,7 +11,6 @@ export const savingThrows = (allAbilities, state) => {
     const list = document.createElement("ul");
 
     allAbilities.forEach(ability => {
-
         const listEntry = document.createElement("li");
         list.appendChild(listEntry);
         list.id = "saving-throw-list";
