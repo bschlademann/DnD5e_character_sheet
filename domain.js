@@ -80,3 +80,23 @@ export const getSavingThrowModifier = (ability, state) => {
 };
 
 export const rollSavingThrow = (ability, state) => roll1d20() + getSavingThrowModifier(ability, state);
+
+export const toggleSkillProficiency = (checkBoxClick, skill, state) => {
+    if (checkBoxClick.target.checked) {;
+        state.proficiencies.skills.push(skill);
+    } else {
+        const skillsInState = state.proficiencies.skills;
+        const skillToRemove = skillsInState.indexOf(skill);
+        skillsInState.splice(skillToRemove);
+    };
+};
+
+export const toggleSavingThrowProficiency = (checkBoxClick, ability, state) => {
+    if (checkBoxClick.target.checked) {;
+        state.proficiencies.saving_throws.push(ability);
+    } else {
+        const savingThrowsInState = state.proficiencies.saving_throws;
+        const savingThrowToRemove = savingThrowsInState.indexOf(ability);
+        savingThrowsInState.splice(savingThrowToRemove);
+    };
+};

@@ -42,21 +42,16 @@ export const abilityList = (allAbilities, state) => {
             setAbilityScore(ability, clampedAbilityScore, state)
             renderAbilityModifier(ability, state);
 
-
-            /**
-             * check which ability is being altered
-             * get all skills from skillsByAbility that use that ability
-             * skills.forEach(skill => renderSkillModifier(skill, skillsByAbility, state))
-             */
-            // optinal: run only when modifier changes
+            // optional: run only when modifier changes
             let dependentSkills = [];
             allSkills.forEach(skill => {
                 if (skillsByAbility[skill] === ability) { dependentSkills.push(skill) }
             });
-           
             dependentSkills.forEach(skill => {
                 renderSkillModifier(skill, skillsByAbility, state);
             });
+
+            // INSERT HERE: update saving throw modifier
 
         });
         listElement.appendChild(abilityModifier);

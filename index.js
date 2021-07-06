@@ -3,6 +3,7 @@ import { sheetHeaderEntries, allAbilities, allSkills, skillsByAbility } from './
 import { sheetHeader } from './components/sheet-header.js';
 import { abilityList } from './components/ability-list.js';
 import { skillsAndDependenciesList } from './components/skills-and-dependencies-list.js';
+import {savingThrows} from "./components/saving-throws.js";
 
 const render = () => {
     const state = createState();
@@ -10,8 +11,7 @@ const render = () => {
     sheetHeader(sheetHeaderEntries, state);
     abilityList(allAbilities, state);
     skillsAndDependenciesList(allSkills, skillsByAbility, state);
+    savingThrows(allAbilities, state);
 };
 
 render();
-
-// TODO: fetch stuff from dnd5api (class, saves, etc)
