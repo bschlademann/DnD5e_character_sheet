@@ -1,4 +1,4 @@
-import { getSkillModifier, toggleSkillProficiency } from "../domain.js";
+import { getSkillModifier, toggleSkillProficiency, rollSkillCheck } from "../domain.js";
 
 export const renderSkillModifier = (skill, skillsByAbility, state) => {
     const modifier = document.getElementById(`skill-modifier-${skill}`);
@@ -10,7 +10,11 @@ export const renderAbilityDependency = (skill, skillsByAbility) => {
     const ability = skillsByAbility[skill];
     abilityDependency.textContent = `(${ability})`;
 };
-
+export const renderSkillCheck = (skill, skillsByAbility, state) => {
+    const output = document.getElementById("dice-roll-output");
+    const result = rollSkillCheck(skill, skillsByAbility, state);
+    output.textContent = `${skill} skill check: ${result.roll + result.modifier} (${result.roll} + ${result.modifier})`;
+};
 
 export const skillsAndDependenciesList = (allSkills, skillsByAbility, state) => {
     const root = document.getElementById("root");
@@ -39,6 +43,9 @@ export const skillsAndDependenciesList = (allSkills, skillsByAbility, state) => 
         const name = document.createElement("label");
         listEntry.appendChild(name);
         name.textContent = skill.replaceAll("_", " ");
+        name.addEventListener("click", () => {
+            renderSkillCheck(skill, skillsByAbility, state);
+        });
 
         const abilityDependency = document.createElement("span");
         listEntry.appendChild(abilityDependency);

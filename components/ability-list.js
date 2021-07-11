@@ -10,11 +10,13 @@ export const renderAbilityModifier = (ability, state) => {
     modifier.textContent = symbol + value;
 };
 
-const renderAbilityCheck = (ability, state) => {
-    console.log(`${ability}-check:`, rollAbilityCheck(ability, state));
+export const renderAbilityCheck = (ability, state) => {
+    const output = document.getElementById("dice-roll-output");
+    const result = rollAbilityCheck(ability, state);
+    output.textContent = `${ability} ability check: ${result.roll + result.modifier} (${result.roll} + ${result.modifier})`;
 };
 
-const updateSkillModifier = (allSkills, skillsByAbility, ability, state) => {
+export const updateSkillModifier = (allSkills, skillsByAbility, ability, state) => {
     const dependentSkills = [];
     allSkills.forEach(skill => {
         if (skillsByAbility[skill] === ability) { dependentSkills.push(skill); }

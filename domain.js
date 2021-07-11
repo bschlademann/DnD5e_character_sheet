@@ -54,7 +54,7 @@ export const getAbilityModifier = (ability, state) => abilityModifier(state.abil
 
 export const roll1d20 = () => Math.floor(Math.random() * 20) + 1;
 
-export const rollAbilityCheck = (ability, state) => roll1d20() + getAbilityModifier(ability, state);
+export const rollAbilityCheck = (ability, state) => { return { roll: roll1d20(), modifier: getAbilityModifier(ability, state) } };
 
 export const getSkillModifier = (skill, skillsByAbility, state) => {
     const ability = skillsByAbility[skill];
@@ -67,7 +67,7 @@ export const getSkillModifier = (skill, skillsByAbility, state) => {
     };
 };
 
-export const rollSkillCheck = (skill, skillsByAbility, state) => roll1d20() + getSkillModifier(skill, skillsByAbility, state);
+export const rollSkillCheck = (skill, skillsByAbility, state) => { return { roll: roll1d20(), modifier: getSkillModifier(skill, skillsByAbility, state) } };
 
 export const getSavingThrowModifier = (ability, state) => {
     const abilityModifier = getAbilityModifier(ability, state);
@@ -80,7 +80,7 @@ export const getSavingThrowModifier = (ability, state) => {
     };
 };
 
-export const rollSavingThrow = (ability, state) => roll1d20() + getSavingThrowModifier(ability, state);
+export const rollSavingThrow = (ability, state) =>{return {roll: roll1d20(), modifier: getSavingThrowModifier(ability, state)}};
 
 export const toggleSkillProficiency = (checkBoxClick, skill, state) => {
     if (checkBoxClick.target.checked) {

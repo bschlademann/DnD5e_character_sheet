@@ -1,8 +1,16 @@
-import { toggleSavingThrowProficiency, getSavingThrowModifier } from "../domain.js";
+import { toggleSavingThrowProficiency, getSavingThrowModifier, rollSavingThrow } from "../domain.js";
 
 export const renderSavingThrowModifier = (ability, state) => {
     const modifier = document.getElementById(`saving-throw-modifier-${ability}`);
     modifier.textContent = getSavingThrowModifier(ability, state);
+};
+
+export const renderSavingThrow = (ability, state) => {
+    const output = document.getElementById("dice-roll-output");
+    output.textContent = `${ability} saving throw: ${rollSavingThrow(ability, state)}`;
+    
+    const result = rollSavingThrow(ability, state);
+    output.textContent = `${ability} sabing throw check: ${result.roll + result.modifier} (${result.roll} + ${result.modifier})`;
 };
 
 export const savingThrows = (allAbilities, state) => {
@@ -21,7 +29,6 @@ export const savingThrows = (allAbilities, state) => {
         proficiencyCheckBox.id = `proficiency-checkbox-${ability}`;
         proficiencyCheckBox.addEventListener("click", checkBoxClick => {
             toggleSavingThrowProficiency(checkBoxClick, ability, state);
-            // FIX NaN on click
             renderSavingThrowModifier(ability, state);
         });
 
@@ -32,6 +39,9 @@ export const savingThrows = (allAbilities, state) => {
         const name = document.createElement("label");
         listEntry.appendChild(name);
         name.textContent = ability;
+        name.addEventListener("click", () => {
+            renderSavingThrow(ability, state);
+        });
     });
 
     root.appendChild(list);

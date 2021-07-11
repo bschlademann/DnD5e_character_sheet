@@ -15,5 +15,6 @@ module.exports = {
         quotes: ["error", "double"],
         indent: ["error", 4],
         "comma-dangle": ["error", "always-multiline"],
+        "padded-blocks": ["error", "blocks"],
     },
 };
