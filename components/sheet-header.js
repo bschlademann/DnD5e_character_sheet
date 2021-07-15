@@ -1,4 +1,14 @@
-import { setProficiencyBonus, updateHeaderEntries } from "../domain.js";
+import {
+    setCharacterName,
+    setCharacterClass,
+    getCharacterClass,
+    setCharacterSubclass,
+    setCharacterLevel,
+    setCharacterBackground,
+    setCharacterAlignment,
+    setCharacterRace,
+    setProficiencyBonus,
+} from "../domain.js";
 import { allAlignments, allcharacterClasses, allCharacterSubClasses, allBackgrounds, allRaces } from "../data.js";
 
 /**
@@ -33,6 +43,13 @@ export const renderInput = (labelText, state) => {
     headerEntryInput.className = "sheet-header-input";
     headerEntryInput.id = `sheet-header-${labelText.replace(" ", "-").toLowerCase()}`;
 
+    if (labelText === "character name") {
+        headerEntryInput.addEventListener("change", input => {
+            const characterName = input.target.value;
+            setCharacterName(characterName, state);
+        });
+    };
+
     if (labelText === "level") {
         headerEntryInput.type = "number";
         headerEntryInput.value = 1;
@@ -40,7 +57,7 @@ export const renderInput = (labelText, state) => {
         headerEntryInput.max = 20;
 
         headerEntryInput.addEventListener("input", (e) => {
-            updateHeaderEntries(e.target.value, state);
+            setCharacterLevel(e.target.value, state);
             setProficiencyBonus(state);
             renderProficiencyBonus(state);
         });
@@ -56,7 +73,7 @@ export const renderInput = (labelText, state) => {
     header.appendChild(headerEntry);
 };
 
-export const renderDropdown = (labelText) => {
+export const renderDropdown = (labelText, state) => {
     const header = document.getElementById("sheet-header");
 
     const headerEntry = document.createElement("div");
@@ -72,7 +89,26 @@ export const renderDropdown = (labelText) => {
         switch (labelText) {
             case "alignment": data = allAlignments;
                 break;
-            case "class": data = allcharacterClasses;
+            case "class": {
+                data = allcharacterClasses;
+                dropdown.addEventListener("input", selectedClass => {
+                    const characterClass = selectedClass.target.value;
+                    setCharacterClass(characterClass, state);
+                    const characterLevel = state.sheetHeaderEntries.level;
+                    const subclassDropdown = document.getElementById("sheet-header-subclass");
+
+                    const subClassThresholdReached = (characterLevel >= 3)
+                        || (characterLevel >= 2 && (characterClass === "cleric" || characterClass === "druid" || characterClass === "wizard"))
+                        || (characterClass === "sorcerer")
+                        || (characterClass === "warlock");
+
+                    if (subClassThresholdReached) {
+                        subclassDropdown.disabled = false;
+                    } else {
+                        subclassDropdown.disabled = true;
+                    };
+                });
+            };
                 break;
             case "background": data = allBackgrounds;
                 break;
@@ -82,6 +118,7 @@ export const renderDropdown = (labelText) => {
         data.forEach(entry => {
             const option = document.createElement("option");
             dropdown.appendChild(option);
+
             option.text = entry;
         });
     } else {
@@ -90,6 +127,7 @@ export const renderDropdown = (labelText) => {
         option.text = "choose a class first"
         dropdown.disabled = true;
     };
+    dropdown.id = `sheet-header-${labelText}`;
     header.appendChild(headerEntry);
 };
 
@@ -103,7 +141,7 @@ export const sheetHeader = (sheetHeaderEntries, state) => {
         if (labelText === "character name" || labelText === "level" || labelText === "proficiency bonus") {
             renderInput(labelText, state);
         } else {
-            renderDropdown(labelText);
+            renderDropdown(labelText, state);
         };
     });
 };

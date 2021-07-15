@@ -26,7 +26,7 @@ export const allcharacterClasses = [
     "artificer",
     "barbarian",
     "bard",
-    "claric",
+    "cleric",
     "druid",
     "fighter",
     "monk",

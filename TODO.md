@@ -1,12 +1,7 @@
 # sheet-header
 - fetch from dnd5api (classes, etc)
     - save in localStorage / sessionStorage (https://javascript.info/localstorage)
-- dropdowns for
-    - alignments (from data)
-    - class
-    - subclass
-    - background
-    - race
+- change proficiencyBonus to from input to div
 
 
 - move PB from sheet header to ? (is needed for saves and skillchecks)
@@ -16,6 +11,8 @@
 experience points (sheet header)
 - passive perception
 - inspiration
+
+- FIX: rolls are rendered as "+-modifier", when modifier is negative
 
 - ac
 - max hp

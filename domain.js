@@ -1,8 +1,8 @@
 // all functions that use state
 
 export const createState = () => ({
-    sheet_header_entries: {
-        character_name: "",
+    sheetHeaderEntries: {
+        characterName: "",
         class: "",
         subclass: "",
         level: 1,
@@ -28,12 +28,37 @@ export const createState = () => ({
     },
 });
 
+export const setCharacterName = (characterName, state) => state.sheetHeaderEntries.characterName = characterName;
+
+export const setCharacterClass = (characterClass, state) => state.sheetHeaderEntries.class = characterClass;
+
+export const getCharacterClass = state => state.sheetHeaderEntries.class;
+
+export const setCharacterSubclass = (characterSubclass, state) => state.sheetHeaderEntries.subclass = characterSubclass;
+
+export const getCharacterSubClass = state => state.sheetHeaderEntries.subclass;
+
+export const setCharacterLevel = (characterLevel, state) => {
+    state.sheetHeaderEntries.level = characterLevel;
+};
+export const getCharacterLevel = state => state.sheetHeaderEntries.level;
+
+export const setCharacterBackground = (charackterBackground, state) => {
+    state.sheetHeaderEntries.background = charackterBackground;
+};
+export const setCharacterAlignment = (characterAlignment, state) => {
+    state.sheetHeaderEntries.alignment = characterAlignment;
+};
+export const setCharacterRace = (characterRace, state) => {
+    state.sheetHeaderEntries.race = characterRace;
+};
+
 export const abilityModifier = ability => Math.floor((ability - 10) / 2);
 
 export const clamp = (min, max, value) => value < min ? min : value > max ? max : value;
 
 export const updateHeaderEntries = (value, state) => {
-    state.sheet_header_entries.level = value;
+    state.sheetHeaderEntries.level = value;
 };
 
 export const setAbilityScore = (ability, clampedAbilityScore, state) => {
@@ -41,7 +66,7 @@ export const setAbilityScore = (ability, clampedAbilityScore, state) => {
 };
 
 export const setProficiencyBonus = (state) => {
-    const characterLevel = state.sheet_header_entries.level;
+    const characterLevel = state.sheetHeaderEntries.level;
     const proficiencyIncreaseThresholds = [5, 9, 13, 17];
     let proficiencyBonusIncrease = 0;
     proficiencyIncreaseThresholds.forEach(thresholdLevel => {
@@ -80,7 +105,7 @@ export const getSavingThrowModifier = (ability, state) => {
     };
 };
 
-export const rollSavingThrow = (ability, state) =>{return {roll: roll1d20(), modifier: getSavingThrowModifier(ability, state)}};
+export const rollSavingThrow = (ability, state) => { return { roll: roll1d20(), modifier: getSavingThrowModifier(ability, state) } };
 
 export const toggleSkillProficiency = (checkBoxClick, skill, state) => {
     if (checkBoxClick.target.checked) {
