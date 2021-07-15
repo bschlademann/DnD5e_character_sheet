@@ -1,15 +1,16 @@
 
 export const sheetHeaderEntries = [
     "character name",
+    "alignment",
+    "race",
+    "background",
     "class",
     "subclass",
     "level",
-    "background",
-    "alignment",
-    "race",
     "proficiency bonus",
 ];
-export const alignments = [
+export const allAlignments = [
+    "",
     "lawful good",
     "neutral good",
     "chaotic good",
@@ -20,7 +21,51 @@ export const alignments = [
     "neutral evil",
     "chaotic evil",
 ];
+export const allcharacterClasses = [
+    "",
+    "artificer",
+    "barbarian",
+    "bard",
+    "claric",
+    "druid",
+    "fighter",
+    "monk",
+    "paladin" ,   
+    "ranger",
+    "rogue",
+    "sorcerer",
+    "warlock",
+    "wizard",
+];
 
+export const allCharacterSubClasses = {
+    "artificer": [
+        "alchemist",
+        "armorer",
+        "artillerist",
+        "battle smith",
+    ],
+    "barbarian": [],
+    "bard": [],
+    "claric": [],
+    "druid": [],
+    "fighter": [],
+    "monk": [],
+    "paladin" : [],   
+    "ranger": [],
+    "rogue": [],
+    "sorcerer": [],
+    "warlock": [],
+    "wizard": [],
+};
+export const allBackgrounds = [
+    "", 
+    "acolyte",
+];
+export const allRaces = [
+    "",
+    "human",
+];
 export const allAbilities = [
     "strength",
     "dexterity",
