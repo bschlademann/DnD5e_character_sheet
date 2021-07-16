@@ -8,6 +8,7 @@ import {
     setCharacterAlignment,
     setCharacterRace,
     setProficiencyBonus,
+    getCharacterLevel,
 } from "../domain.js";
 import { allAlignments, allcharacterClasses, allCharacterSubClasses, allBackgrounds, allRaces } from "../data.js";
 
@@ -27,6 +28,22 @@ export const getProficiencyBonus = (proficiencyBonus, state) => {
 export const renderProficiencyBonus = (state) => {
     const proficiencyBonus = document.getElementById("sheet-header-proficiency-bonus");
     getProficiencyBonus(proficiencyBonus, state);
+};
+
+export const toggleSubclassDropdownDisable = (characterClass, characterLevel) => {
+    
+    const subclassDropdown = document.getElementById("sheet-header-subclass");
+
+    const subClassThresholdReached = (characterLevel >= 3)
+        || (characterLevel >= 2 && (characterClass === "cleric" || characterClass === "druid" || characterClass === "wizard"))
+        || (characterClass === "sorcerer")
+        || (characterClass === "warlock");
+
+    if (subClassThresholdReached) {
+        subclassDropdown.disabled = false;
+    } else {
+        subclassDropdown.disabled = true;
+    };
 };
 
 export const renderInput = (labelText, state) => {
@@ -60,6 +77,9 @@ export const renderInput = (labelText, state) => {
             setCharacterLevel(e.target.value, state);
             setProficiencyBonus(state);
             renderProficiencyBonus(state);
+            const characterClass = getCharacterClass(state);
+            const characterLevel = getCharacterLevel(state);
+            toggleSubclassDropdownDisable(characterClass, characterLevel);
         });
     };
 
@@ -94,19 +114,13 @@ export const renderDropdown = (labelText, state) => {
                 dropdown.addEventListener("input", selectedClass => {
                     const characterClass = selectedClass.target.value;
                     setCharacterClass(characterClass, state);
-                    const characterLevel = state.sheetHeaderEntries.level;
-                    const subclassDropdown = document.getElementById("sheet-header-subclass");
+                    const characterLevel = getCharacterLevel(state);
+                    toggleSubclassDropdownDisable(characterClass, characterLevel);
 
-                    const subClassThresholdReached = (characterLevel >= 3)
-                        || (characterLevel >= 2 && (characterClass === "cleric" || characterClass === "druid" || characterClass === "wizard"))
-                        || (characterClass === "sorcerer")
-                        || (characterClass === "warlock");
+                    
 
-                    if (subClassThresholdReached) {
-                        subclassDropdown.disabled = false;
-                    } else {
-                        subclassDropdown.disabled = true;
-                    };
+
+
                 });
             };
                 break;
