@@ -9,40 +9,67 @@ import {
     setCharacterRace,
     setProficiencyBonus,
     getCharacterLevel,
+    getCharacterSubClass,
+    getProficiencyBonus,
 } from "../domain.js";
 import { allAlignments, allcharacterClasses, allCharacterSubClasses, allBackgrounds, allRaces } from "../data.js";
-
-/**
- * subclass:
- * class needs to go in state
- * read from there to select key in "subclass" object to get only sunclasses for selected class
- * deactivate subclass-select-element depending on class and level (mostly gets activated on lv3, but e.g. for clerics at lv2)
- * eventlisteners on class-select and level-input
- * if ([select]value !== ""){use [select]value as key for subclass object to generate options}
- */
-
-export const getProficiencyBonus = (proficiencyBonus, state) => {
-    proficiencyBonus.value = state.proficiencies.proficiencyBonus;
-};
 
 export const renderProficiencyBonus = (state) => {
     const proficiencyBonus = document.getElementById("sheet-header-proficiency-bonus");
     getProficiencyBonus(proficiencyBonus, state);
 };
 
-export const toggleSubclassDropdownDisable = (characterClass, characterLevel) => {
-    
+export const renderSubclassOptions = (state) => {
     const subclassDropdown = document.getElementById("sheet-header-subclass");
+    const characterClass = getCharacterClass(state);
+    const subclasses = allCharacterSubClasses[characterClass];
 
-    const subClassThresholdReached = (characterLevel >= 3)
+    subclassDropdown.innerHTML = "";
+
+    subclasses.forEach(subclass => {
+        const option = document.createElement("option");
+        subclassDropdown.appendChild(option);
+        option.text = subclass;
+        option.value = subclass.replace(" ", "-");
+    });
+};
+
+export const subclassDisabledMessage = (characterClass, subClassThresholdReached) => {
+    if (characterClass === "") {
+        return "choose a class";
+    } else if (subClassThresholdReached === false) {
+        return "higher level needed";
+    };
+};
+
+export const toggleSubclassDropdownDisable = (characterClass, characterLevel, state) => {
+    const subclassDropdown = document.getElementById("sheet-header-subclass");
+    const messageNode = (str) => document.createTextNode(str);
+    // FIX: "message" stays "higher level needed" even after innerHtml = ""... why? 
+    // -> is it an invisible textNode?
+    // -> does some part of the code run multiple times and overwrites the first CHild with "higher level needed" for a moment?
+    // FIX: when level is lowered below threshold: remove all dropdown-options and add a new one: "level to low"
+    const subClassThresholdReached = (characterLevel >= 3 && characterClass !== "")
         || (characterLevel >= 2 && (characterClass === "cleric" || characterClass === "druid" || characterClass === "wizard"))
         || (characterClass === "sorcerer")
         || (characterClass === "warlock");
 
     if (subClassThresholdReached) {
         subclassDropdown.disabled = false;
+        renderSubclassOptions(state);
     } else {
         subclassDropdown.disabled = true;
+        subclassDropdown.innerHTML = "";
+        const messageText = subclassDisabledMessage(characterClass, subClassThresholdReached);
+        const message = messageNode(messageText);
+        subclassDropdown.appendChild(message);
+    };
+
+    if (characterClass === "") {
+        messageNode.text = "choose a class first";
+        subclassDropdown.disabled = true;
+    } else {
+        messageNode.text = "higher level needed";
     };
 };
 
@@ -57,7 +84,6 @@ export const renderInput = (labelText, state) => {
     headerLabel.textContent = labelText;
     headerEntry.appendChild(headerLabel);
     headerEntry.appendChild(headerEntryInput);
-    headerEntryInput.className = "sheet-header-input";
     headerEntryInput.id = `sheet-header-${labelText.replace(" ", "-").toLowerCase()}`;
 
     if (labelText === "character name") {
@@ -73,13 +99,13 @@ export const renderInput = (labelText, state) => {
         headerEntryInput.min = 1;
         headerEntryInput.max = 20;
 
-        headerEntryInput.addEventListener("input", (e) => {
+        headerEntryInput.addEventListener("input", e => {
             setCharacterLevel(e.target.value, state);
             setProficiencyBonus(state);
             renderProficiencyBonus(state);
             const characterClass = getCharacterClass(state);
             const characterLevel = getCharacterLevel(state);
-            toggleSubclassDropdownDisable(characterClass, characterLevel);
+            toggleSubclassDropdownDisable(characterClass, characterLevel, state);
         });
     };
 
@@ -111,16 +137,12 @@ export const renderDropdown = (labelText, state) => {
                 break;
             case "class": {
                 data = allcharacterClasses;
-                dropdown.addEventListener("input", selectedClass => {
-                    const characterClass = selectedClass.target.value;
+                dropdown.addEventListener("change", e => {
+                    const characterClass = e.target.value;
                     setCharacterClass(characterClass, state);
+                    console.log("characterClass in state:", getCharacterClass(state));
                     const characterLevel = getCharacterLevel(state);
-                    toggleSubclassDropdownDisable(characterClass, characterLevel);
-
-                    
-
-
-
+                    toggleSubclassDropdownDisable(characterClass, characterLevel, state);
                 });
             };
                 break;
@@ -129,17 +151,22 @@ export const renderDropdown = (labelText, state) => {
             case "race": data = allRaces;
                 break;
         };
+
         data.forEach(entry => {
             const option = document.createElement("option");
             dropdown.appendChild(option);
-
             option.text = entry;
         });
     } else {
         const option = document.createElement("option");
         dropdown.appendChild(option);
-        option.text = "choose a class first"
+        option.text = "choose a class first";
         dropdown.disabled = true;
+
+        dropdown.addEventListener("change", subclassSelect => {
+            const characterSubclass = subclassSelect.target.value.replace("-", " ");
+            setCharacterSubclass(characterSubclass, state);
+        });
     };
     dropdown.id = `sheet-header-${labelText}`;
     header.appendChild(headerEntry);

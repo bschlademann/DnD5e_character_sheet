@@ -3,12 +3,12 @@
 export const createState = () => ({
     sheetHeaderEntries: {
         characterName: "",
+        alignment: "",
+        race: "",
+        background: "",
         class: "",
         subclass: "",
         level: 1,
-        background: "",
-        alignment: "",
-        race: "",
     },
     abilityScores: {
         strength: 10,
@@ -30,6 +30,8 @@ export const createState = () => ({
 
 export const setCharacterName = (characterName, state) => state.sheetHeaderEntries.characterName = characterName;
 
+export const getCharacterName = state => state.sheetHeaderEntries.name;
+
 export const setCharacterClass = (characterClass, state) => state.sheetHeaderEntries.class = characterClass;
 
 export const getCharacterClass = state => state.sheetHeaderEntries.class;
@@ -38,32 +40,27 @@ export const setCharacterSubclass = (characterSubclass, state) => state.sheetHea
 
 export const getCharacterSubClass = state => state.sheetHeaderEntries.subclass;
 
-export const setCharacterLevel = (characterLevel, state) => {
-    state.sheetHeaderEntries.level = characterLevel;
-};
+export const setCharacterLevel = (characterLevel, state) => state.sheetHeaderEntries.level = characterLevel;
+
 export const getCharacterLevel = state => state.sheetHeaderEntries.level;
 
-export const setCharacterBackground = (charackterBackground, state) => {
-    state.sheetHeaderEntries.background = charackterBackground;
-};
-export const setCharacterAlignment = (characterAlignment, state) => {
-    state.sheetHeaderEntries.alignment = characterAlignment;
-};
-export const setCharacterRace = (characterRace, state) => {
-    state.sheetHeaderEntries.race = characterRace;
-};
+export const setCharacterBackground = (charackterBackground, state) => state.sheetHeaderEntries.background = charackterBackground;
+
+export const getCharacterBackground = state => state.sheetHeaderEntries.background;
+
+export const setCharacterAlignment = (characterAlignment, state) => state.sheetHeaderEntries.alignment = characterAlignment;
+
+export const getCharacterAlignment = state => state.sheetHeaderEntries.alignment;
+
+export const setCharacterRace = (characterRace, state) => state.sheetHeaderEntries.race = characterRace;
+
+export const getCharacterRace = state => state.sheetHeaderEntries.race;
 
 export const abilityModifier = ability => Math.floor((ability - 10) / 2);
 
 export const clamp = (min, max, value) => value < min ? min : value > max ? max : value;
 
-export const updateHeaderEntries = (value, state) => {
-    state.sheetHeaderEntries.level = value;
-};
-
-export const setAbilityScore = (ability, clampedAbilityScore, state) => {
-    state.abilityScores[ability] = clampedAbilityScore;
-};
+export const setAbilityScore = (ability, clampedAbilityScore, state) => state.abilityScores[ability] = clampedAbilityScore;
 
 export const setProficiencyBonus = (state) => {
     const characterLevel = state.sheetHeaderEntries.level;
@@ -74,6 +71,7 @@ export const setProficiencyBonus = (state) => {
     });
     state.proficiencies.proficiencyBonus = 2 + proficiencyBonusIncrease;
 };
+export const getProficiencyBonus = (proficiencyBonus, state) => proficiencyBonus.value = state.proficiencies.proficiencyBonus;
 
 export const getAbilityModifier = (ability, state) => abilityModifier(state.abilityScores[ability]);
 
